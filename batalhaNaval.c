@@ -97,13 +97,13 @@ void exibirTabuleiro(int grid[tabuleiro][tabuleiro])
 int main()
 {
 
-    int tabuleiro[tabuleiro][tabuleiro]; // Array com o tabuleiro do tabuleiro
+    int tabuleiro[tabuleiro][tabuleiro]; // Array com o tabuleiro
 
     inicializarTabuleiro(tabuleiro); // Inicializa o tabuleiro
 
-    localDoNavio(tabuleiro);
+    localDoNavio(tabuleiro);// Gera os navios
 
-    exibirTabuleiro(tabuleiro);
+    exibirTabuleiro(tabuleiro);// Mostra o tabuleiro pronto 
 
     return 0;
 }
