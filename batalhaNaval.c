@@ -32,7 +32,7 @@ A saida do inicializarTabuleiro foi esta
 (8,0) (8,1) (8,2) (8,3) (8,4) (8,5) (8,6) (8,7) (8,8) (8,9)
 (9,0) (9,1) (9,2) (9,3) (9,4) (9,5) (9,6) (9,7) (9,8) (9,9)
 Para o navil horizontal irei usar o indice 6,0 6,1 6,2
-Para o navil horizontal irei usar o indice 2,8 3,8 4,8
+Para o navil vertical irei usar o indice 2,8 3,8 4,8
 */
 
 #include <stdio.h>
