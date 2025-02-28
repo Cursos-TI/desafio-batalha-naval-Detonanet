@@ -43,100 +43,150 @@ Para o navil diagonal descendo irei usar o indice 6,6 7,5 8,4
 
 #include <stdio.h>
 
-// Vamos criar as variaveis do AGUA e do navil
+// Definições para os tipos de células do tabuleiro
 #define AGUA 0
 #define NAVIO 3
-#define TABULEIRO 10
+#define TABULEIRO 10 // Tamanho padrão do tabuleiro principal
 
-// Criando o tabuleiro para saber aonde iremos colocar os NAVIOs
-void inicializartabuleiro(int grid[TABULEIRO][TABULEIRO])
+// Definições para o tabuleiro de habilidades
+#define TABULEIRO_LINHAS 3
+#define TABULEIRO_COLUNAS 5
+
+// Função para inicializar qualquer tabuleiro com água
+void inicializarTabuleiro(int linhas, int colunas, int grid[linhas][colunas])
 {
-    for (int i = 0; i < TABULEIRO; i++)
+    for (int i = 0; i < linhas; i++)
     {
-        for (int j = 0; j < TABULEIRO; j++)
+        for (int j = 0; j < colunas; j++)
         {
-            grid[i][j] = AGUA; // Criando o TABULEIRO sera um array grid, foi melhor para manipular ele depois
-                               // printf("(%d,%d) ", i, j); // Paara mostrar os indices da matriz
-                               // printf("%d ",0);// Inicializa todas as posições como água (0), não funfionou direito
+            grid[i][j] = AGUA; // Preenche o tabuleiro com água (0)
         }
-        // printf("\n"); // Coloquei para pular linha mais pulou muitas linhasa por causa do loop
     }
 }
 
-// Aqui crio os NAVIOs no grid que ja tinha criado acima
+// Função para posicionar navios em um tabuleiro 10x10
 void localDoNavio(int grid[TABULEIRO][TABULEIRO])
 {
-
-    int linhaHorizontal = 6, colunaHorizontal = 0; // Estou definindo aonde irei ninicializar a contrução do NAVIO horizontal
-
-    int linhaVertical = 2, colunaVertical = 8; // Estou definindo aonde irei ninicializar a contrução do NAVIO vertical
-
-    int linhaDiagonalAumenta = 4, colunaDiagonalAumenta = 1; // Estou definindo aonde irei inicializar a contrução do navio diagonal aumenta
-
-    int linhaDiagonalDiminui = 6, colunaDiagonalDiminui = 6; // Estou definindo aonde irei inicializar a contrução do navio diagonal diminui
+    // Definição das posições iniciais dos navios
+    int linhaHorizontal = 6, colunaHorizontal = 0;           // Navio na horizontal
+    int linhaVertical = 2, colunaVertical = 8;               // Navio na vertical
+    int linhaDiagonalAumenta = 4, colunaDiagonalAumenta = 1; // Diagonal subindo
+    int linhaDiagonalDiminui = 6, colunaDiagonalDiminui = 6; // Diagonal descendo
 
     // Navio na horizontal (6,0) → (6,1) → (6,2)
     for (int i = 0; i < NAVIO; i++)
     {
-        grid[linhaHorizontal][colunaHorizontal + i] = NAVIO; // coloquei o  + i para ele acrecentar o numero 3 nos tres indice que eu quero
+        grid[linhaHorizontal][colunaHorizontal + i] = NAVIO;
     }
 
     // Navio na vertical (2,8) → (3,8) → (4,8)
     for (int i = 0; i < NAVIO; i++)
     {
-        grid[linhaVertical + i][colunaVertical] = NAVIO; // coloquei o  + i para ele acrecentar o numero 3 nos tres indice que eu quero
+        grid[linhaVertical + i][colunaVertical] = NAVIO;
     }
 
     // Navio na diagonal subindo (4,1) → (3,2) → (2,3)
     for (int i = 0; i < NAVIO; i++)
     {
-        grid[linhaVertical + i][colunaVertical] = NAVIO; // coloquei o  + i para ele acrecentar o numero 3 nos tres indice que eu quero
-    }
-
-    // Navio na diagonal subindo (4,1) → (3,2) → (2,3)
-    for (int i = 0; i < NAVIO; i++) 
-    {
-        // grid[linhaVertical + i][colunaVertical] = NAVIO; // coloquei o  + i para ele acrecentar o numero 3 nos tres indice que eu quero
         grid[linhaDiagonalAumenta - i][colunaDiagonalAumenta + i] = NAVIO;
     }
 
     // Navio na diagonal descendo (6,6) → (7,5) → (8,4)
     for (int i = 0; i < NAVIO; i++)
     {
-        // grid[linhaVertical + i][colunaVertical] = NAVIO; // coloquei o  + i para ele acrecentar o numero 3 nos tres indice que eu quero
         grid[linhaDiagonalDiminui + i][colunaDiagonalDiminui - i] = NAVIO;
     }
 }
 
-// Aqui mostra tudo, o TABULEIRO com a AGUA e os NAVIOs
-void exibirTabuleiro(int grid[TABULEIRO][TABULEIRO])
+// Função para criar um tabuleiro de habilidades em formato cone
+void habilidadeCone(int grid[TABULEIRO_LINHAS][TABULEIRO_COLUNAS])
 {
-    printf("TABULEIRO de Batalha Naval:\n\n"); // so para ficar mais bonito, coloquei o titulo
+    grid[0][2] = NAVIO; 
+    grid[1][1] = NAVIO;
+    grid[1][2] = NAVIO;
+    grid[1][3] = NAVIO; 
+    grid[3][1] = NAVIO;
+    grid[3][2] = NAVIO;
+    grid[3][3] = NAVIO; 
+    grid[2][0] = NAVIO;
+    grid[2][1] = NAVIO;
+    grid[2][2] = NAVIO;
+    grid[2][3] = NAVIO;
+    grid[2][4] = NAVIO; 
+}
 
-    // loop aninhado
-    for (int i = 0; i < TABULEIRO; i++)
+// Função para criar um tabuleiro de habilidades em formato cruz
+void habilidadeCruz(int grid[TABULEIRO_LINHAS][TABULEIRO_COLUNAS])
+{
+    grid[1][2] = NAVIO; 
+    grid[0][2] = NAVIO;
+    grid[2][2] = NAVIO;
+    grid[1][0] = NAVIO;
+    grid[1][1] = NAVIO;
+    grid[2][3] = NAVIO;
+    grid[2][4] = NAVIO;
+}
+
+// Função para criar um tabuleiro de habilidades em formato octaedro
+void habilidadeOctaedro(int grid[TABULEIRO_LINHAS][TABULEIRO_COLUNAS])
+{
+    grid[0][2] = NAVIO;
+    grid[1][2] = NAVIO;
+    grid[2][2] = NAVIO; 
+    grid[1][1] = NAVIO;
+    grid[1][3] = NAVIO; 
+    
+}
+
+// Função para exibir qualquer tabuleiro na tela
+void exibirTabuleiro(int linhas, int colunas, int grid[linhas][colunas])
+{
+   
+    for (int i = 0; i < linhas; i++)
     {
-        for (int j = 0; j < TABULEIRO; j++)
+        for (int j = 0; j < colunas; j++)
         {
-            printf("%d ", grid[i][j]); // exibe cada posição do TABULEIRO
+            printf("%d ", grid[i][j]);
         }
-        printf("\n"); // a cada array finalizada pula uma linha
+        printf("\n"); // Pula linha ao terminar cada linha do tabuleiro
     }
+    printf("\n");
 }
 
 int main()
 {
+    // Criando o tabuleiro principal (10x10)
+    printf("Tabuleiro\n");
+    int tabuleiro[TABULEIRO][TABULEIRO];
+    inicializarTabuleiro(TABULEIRO, TABULEIRO, tabuleiro); // Inicializa com água
+    localDoNavio(tabuleiro);                               // Gera os NAVIOs
+    exibirTabuleiro(TABULEIRO, TABULEIRO, tabuleiro);      // Exibe o tabuleiro principal
 
-    int tabuleiro[TABULEIRO][TABULEIRO]; // Array com o TABULEIRO
+    // Criando o tabuleiro de habilidades (5x5)
+    int tabuleiroHabilidades[TABULEIRO_LINHAS][TABULEIRO_COLUNAS];
 
-    inicializartabuleiro(tabuleiro); // Inicializa o TABULEIRO
+    inicializarTabuleiro(TABULEIRO_LINHAS, TABULEIRO_COLUNAS, tabuleiroHabilidades); // Inicializa com água
 
-    localDoNavio(tabuleiro); // Gera os NAVIOs
+    // Habilidade em cone
+    printf("Habilidade em Cone:\n");
+    habilidadeCone(tabuleiroHabilidades);                                       // Aplica habilidade em cone
+    exibirTabuleiro(TABULEIRO_LINHAS, TABULEIRO_COLUNAS, tabuleiroHabilidades); // Exibe o tabuleiro de cone
 
-    exibirTabuleiro(tabuleiro); // Mostra o TABULEIRO pronto
+    // Habilidade em cruz
+    printf("Habilidade em Cruz:\n");
+    inicializarTabuleiro(TABULEIRO_LINHAS, TABULEIRO_COLUNAS, tabuleiroHabilidades); // Re-inicializa o tabuleiro
+    habilidadeCruz(tabuleiroHabilidades);                                            // Aplica habilidade em cruz
+    exibirTabuleiro(TABULEIRO_LINHAS, TABULEIRO_COLUNAS, tabuleiroHabilidades);      // Exibe o tabuleiro de cruz
+
+    // Habilidade em octaedro
+    printf("Habilidade em Octaedro:\n");
+    inicializarTabuleiro(TABULEIRO_LINHAS, TABULEIRO_COLUNAS, tabuleiroHabilidades); // Re-inicializa o tabuleiro
+    habilidadeOctaedro(tabuleiroHabilidades);                                        // Aplica habilidade em octaedro
+    exibirTabuleiro(TABULEIRO_LINHAS, TABULEIRO_COLUNAS, tabuleiroHabilidades);      // Exibe o tabuleiro de octaedro
 
     return 0;
 }
+
 
 // Bom acho que e isto
 // Github:  https://github.com/Cursos-TI/desafio-batalha-naval-Detonanet
