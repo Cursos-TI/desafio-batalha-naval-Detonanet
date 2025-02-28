@@ -1,22 +1,26 @@
 /*
 O que você vai fazer
 
-1. Represente o Tabuleiro: Utilize uma matriz (array bidimensional) para representar o tabuleiro do Batalha Naval.
-Neste nível novato, o tabuleiro terá um tamanho fixo 10x10. Inicialize todas as posições do tabuleiro com o valor 0, representando água.
+1.	Criar um Tabuleiro 10x10: Declare uma matriz (array bidimensional) de tamanho 10x10 para representar o tabuleiro do Batalha Naval.
+Inicialize todas as posições com o valor 0, representando água.
 
-2. Posicione os Navios: Declare e inicialize dois vetores (arrays unidimensionais) para representar os navios.
-Cada navio ocupará um número fixo de posições no tabuleiro (defina esse tamanho, por exemplo, 3 posições).
-Um navio será posicionado horizontalmente e o outro verticalmente.
-Represente as posições ocupadas pelos navios na matriz do tabuleiro com o valor 3.
-Você deverá escolher as coordenadas iniciais de cada navio e garantir que eles estejam completamente dentro dos limites do tabuleiro e não se sobreponham.
-Dica: O posicionamento do navio pode ser feito copiando o valor 3 de cada posição do vetor do navio para as posições correspondentes na matriz do tabuleiro,
-de acordo com a orientação (horizontal ou vertical) do navio.
+2.	Posicionar Quatro Navios: Posicione quatro navios no tabuleiro.
 
-3. Exiba o Tabuleiro: Utilize loops aninhados e o comando printf para exibir o tabuleiro no console.
-Mostre a matriz completa, com 0s representando água e 3s representando as partes dos navios.
-A saída deve ser clara e organizada, permitindo visualizar facilmente a posição dos navios.
-Dica: Imprima um espaço ou outro caractere separador entre os elementos da matriz para facilitar a visualização.
+1.	Dois navios devem estar posicionados horizontalmente ou verticalmente (como no nível anterior).
 
+2.	Os outros dois navios devem ser posicionados na diagonal.
+Considere que um navio diagonal ocupa posições onde a linha e a coluna aumentam ou diminuem simultaneamente
+(ex: tabuleiro[i][i] ou tabuleiro[i][9-i] para um tabuleiro 10x10).
+
+3.	Represente as posições ocupadas pelos navios com o valor 3.
+
+4.	Escolha as coordenadas iniciais.
+
+5.	Valide que as posições dos navios estejam dentro dos limites do tabuleiro e que eles não se sobreponham.
+
+3.	Exibir o Tabuleiro: Utilize loops aninhados e o comando printf para exibir o tabuleiro completo no console.
+A saída deve mostrar a matriz 10x10, com 0s representando água e 3s representando as partes dos navios.
+Utilize espaços para alinhar a saída e facilitar a visualização do tabuleiro.
 */
 
 /*
@@ -32,63 +36,89 @@ A saida do inicializarTabuleiro foi esta
 (8,0) (8,1) (8,2) (8,3) (8,4) (8,5) (8,6) (8,7) (8,8) (8,9)
 (9,0) (9,1) (9,2) (9,3) (9,4) (9,5) (9,6) (9,7) (9,8) (9,9)
 Para o navil horizontal irei usar o indice 6,0 6,1 6,2
-Para o navil vertical irei usar o indice 2,8 3,8 4,8
+Para o navil horizontal irei usar o indice 2,8 3,8 4,8
+Para o navil diagonal subindo irei usar o indice 4,1 3,2 2,3
+Para o navil diagonal descendo irei usar o indice 6,6 7,5 8,4
 */
 
 #include <stdio.h>
 
-// Vamos criar as variaveis do agua e do navil
-int agua = 0;
-int navio = 3;
-int tabuleiro = 10;
+// Vamos criar as variaveis do AGUA e do navil
+#define AGUA 0
+#define NAVIO 3
+#define TABULEIRO 10
 
-// Criando o tabuleiro para saber aonde iremos colocar os navios
-void inicializarTabuleiro(int grid[tabuleiro][tabuleiro])
+// Criando o tabuleiro para saber aonde iremos colocar os NAVIOs
+void inicializartabuleiro(int grid[TABULEIRO][TABULEIRO])
 {
-    for (int i = 0; i < tabuleiro; i++)
+    for (int i = 0; i < TABULEIRO; i++)
     {
-        for (int j = 0; j < tabuleiro; j++)
+        for (int j = 0; j < TABULEIRO; j++)
         {
-            grid[i][j] = 0; // Criando o tabuleiro sera um array grid, foi melhor para manipular ele depois 
-                            // printf("(%d,%d) ", i, j); // Paara mostrar os indices da matriz
-                            // printf("%d ",0);// Inicializa todas as posições como água (0), não funfionou direito
+            grid[i][j] = AGUA; // Criando o TABULEIRO sera um array grid, foi melhor para manipular ele depois
+                               // printf("(%d,%d) ", i, j); // Paara mostrar os indices da matriz
+                               // printf("%d ",0);// Inicializa todas as posições como água (0), não funfionou direito
         }
-       // printf("\n"); // Coloquei para pular linha mais pulou muitas linhasa por causa do loop
+        // printf("\n"); // Coloquei para pular linha mais pulou muitas linhasa por causa do loop
     }
 }
 
-// Aqui crio os navios no grid que ja tinha criado acima 
-void localDoNavio(int grid[tabuleiro][tabuleiro])
+// Aqui crio os NAVIOs no grid que ja tinha criado acima
+void localDoNavio(int grid[TABULEIRO][TABULEIRO])
 {
 
-    int linhaHorizontal = 6, colunaHorizontal = 0; // Estou definindo aonde irei ninicializar a contrução do navio horizontal
+    int linhaHorizontal = 6, colunaHorizontal = 0; // Estou definindo aonde irei ninicializar a contrução do NAVIO horizontal
 
-    int linhaVertical = 2, colunaVertical = 8; // Estou definindo aonde irei ninicializar a contrução do navio vertical
+    int linhaVertical = 2, colunaVertical = 8; // Estou definindo aonde irei ninicializar a contrução do NAVIO vertical
 
-    // Posição do navio na horizontal
-    for (int i = 0; i < navio; i++)
+    int linhaDiagonalAumenta = 4, colunaDiagonalAumenta = 1; // Estou definindo aonde irei inicializar a contrução do navio diagonal aumenta
+
+    int linhaDiagonalDiminui = 6, colunaDiagonalDiminui = 6; // Estou definindo aonde irei inicializar a contrução do navio diagonal diminui
+
+    // Navio na horizontal (6,0) → (6,1) → (6,2)
+    for (int i = 0; i < NAVIO; i++)
     {
-        grid[linhaHorizontal][colunaHorizontal + i] = navio; // coloquei o  + i para ele acrecentar o numero 3 nos tres indice que eu quero
+        grid[linhaHorizontal][colunaHorizontal + i] = NAVIO; // coloquei o  + i para ele acrecentar o numero 3 nos tres indice que eu quero
     }
 
-    // Posição do navio na vertical
-    for (int i = 0; i < navio; i++)
+    // Navio na vertical (2,8) → (3,8) → (4,8)
+    for (int i = 0; i < NAVIO; i++)
     {
-        grid[linhaVertical + i][colunaVertical] = navio; // coloquei o  + i para ele acrecentar o numero 3 nos tres indice que eu quero
+        grid[linhaVertical + i][colunaVertical] = NAVIO; // coloquei o  + i para ele acrecentar o numero 3 nos tres indice que eu quero
+    }
+
+    // Navio na diagonal subindo (4,1) → (3,2) → (2,3)
+    for (int i = 0; i < NAVIO; i++)
+    {
+        grid[linhaVertical + i][colunaVertical] = NAVIO; // coloquei o  + i para ele acrecentar o numero 3 nos tres indice que eu quero
+    }
+
+    // Navio na diagonal subindo (4,1) → (3,2) → (2,3)
+    for (int i = 0; i < NAVIO; i++) 
+    {
+        // grid[linhaVertical + i][colunaVertical] = NAVIO; // coloquei o  + i para ele acrecentar o numero 3 nos tres indice que eu quero
+        grid[linhaDiagonalAumenta - i][colunaDiagonalAumenta + i] = NAVIO;
+    }
+
+    // Navio na diagonal descendo (6,6) → (7,5) → (8,4)
+    for (int i = 0; i < NAVIO; i++)
+    {
+        // grid[linhaVertical + i][colunaVertical] = NAVIO; // coloquei o  + i para ele acrecentar o numero 3 nos tres indice que eu quero
+        grid[linhaDiagonalDiminui + i][colunaDiagonalDiminui - i] = NAVIO;
     }
 }
 
-// Aqui mostra tudo, o tabuleiro com a agua e os navios 
-void exibirTabuleiro(int grid[tabuleiro][tabuleiro])
+// Aqui mostra tudo, o TABULEIRO com a AGUA e os NAVIOs
+void exibirTabuleiro(int grid[TABULEIRO][TABULEIRO])
 {
-    printf("Tabuleiro de Batalha Naval:\n\n");// so para ficar mais bonito, coloquei o titulo 
-    
+    printf("TABULEIRO de Batalha Naval:\n\n"); // so para ficar mais bonito, coloquei o titulo
+
     // loop aninhado
-    for (int i = 0; i < tabuleiro; i++)
+    for (int i = 0; i < TABULEIRO; i++)
     {
-        for (int j = 0; j < tabuleiro; j++)
+        for (int j = 0; j < TABULEIRO; j++)
         {
-            printf("%d ", grid[i][j]); // exibe cada posição do tabuleiro
+            printf("%d ", grid[i][j]); // exibe cada posição do TABULEIRO
         }
         printf("\n"); // a cada array finalizada pula uma linha
     }
@@ -97,16 +127,16 @@ void exibirTabuleiro(int grid[tabuleiro][tabuleiro])
 int main()
 {
 
-    int tabuleiro[tabuleiro][tabuleiro]; // Array com o tabuleiro
+    int tabuleiro[TABULEIRO][TABULEIRO]; // Array com o TABULEIRO
 
-    inicializarTabuleiro(tabuleiro); // Inicializa o tabuleiro
+    inicializartabuleiro(tabuleiro); // Inicializa o TABULEIRO
 
-    localDoNavio(tabuleiro);// Gera os navios
+    localDoNavio(tabuleiro); // Gera os NAVIOs
 
-    exibirTabuleiro(tabuleiro);// Mostra o tabuleiro pronto 
+    exibirTabuleiro(tabuleiro); // Mostra o TABULEIRO pronto
 
     return 0;
 }
 
-// Bom acho que e isto 
+// Bom acho que e isto
 // Github:  https://github.com/Cursos-TI/desafio-batalha-naval-Detonanet
